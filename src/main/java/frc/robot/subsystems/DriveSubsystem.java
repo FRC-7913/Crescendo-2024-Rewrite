@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.LimelightHelpers;
-import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 
 import java.util.Arrays;
@@ -170,16 +169,11 @@ public class DriveSubsystem extends SubsystemBase {
      * Events, if registered elsewhere using {@link com.pathplanner.lib.auto.NamedCommands}, will be run.
      *
      * @param pathName The PathPlanner path name, as configured in the configuration
-     * @param setOdomToStart If true, will set the odometry to the start of the path when this command is initialized
      * @return {@link AutoBuilder#followPath(PathPlannerPath)} path command
      */
-    public Command getPathPlannerFollowCommand(String pathName, boolean setOdomToStart) {
+    public Command getPathPlannerFollowCommand(String pathName) {
         // Loads the path from the GUI name given
         PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
-
-        if (setOdomToStart) {
-            resetOdometry(new Pose2d(path.getPoint(0).position, getGyroRotation2d()));
-        }
 
         // Creates a path following command using AutoBuilder. This will execute any named commands when running
         return AutoBuilder.followPath(path);

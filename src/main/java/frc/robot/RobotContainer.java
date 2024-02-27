@@ -71,7 +71,8 @@ public class RobotContainer {
 
         registerAutonomousCommands();
 
-        autonomousCommand = AutoBuilder.buildAutoChooser("");
+        int driverStationNumber = DriverStation.getLocation().orElse(2);
+        autonomousCommand = AutoBuilder.buildAutoChooser("DS" + driverStationNumber + "@S Do Nothing");
 
         configureDashboard();
 
@@ -179,8 +180,6 @@ public class RobotContainer {
                 () -> -driverController.getRightX(),
                 () -> !driverController.getHID().getYButton() // Switch to robot oriented when Y is held
         ));
-
-        driverController.x().whileTrue(driveSubsystem.getPathPlannerFollowCommand("Super Simple", true));
 
         // set the arm subsystem to run the "runAutomatic" function continuously when no other command is running
         armSubsystem.setDefaultCommand(new RunCommand(armSubsystem::runAutomatic, armSubsystem));
